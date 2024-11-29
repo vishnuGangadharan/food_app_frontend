@@ -1,5 +1,6 @@
 import Api from "../utils/axios";
 import errorHandler from "./error";
+const token = localStorage.getItem('token')
 
 
 
@@ -29,7 +30,11 @@ export const login= async(userData) => {
 
 export const userReviews = async(data) =>{
     try {
-        const response = await Api.post("/userAuth/addReview", data)
+        const response = await Api.post("/userAuth/addReview", data ,{
+            headers :{
+                'Authorization': `Bearer ${token}`,
+            }
+        })
         return response
     } catch (error) {
         const err = error;

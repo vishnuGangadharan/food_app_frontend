@@ -10,6 +10,7 @@ const CategoryDishes = lazy(()=> import("../pages/CategoryDishes"))
 const Review = lazy(()=> import("../pages/Review"))
 const UserLogout = lazy(()=> import("../protectRoutes/UserLogout"))
 const UserLogin = lazy(()=> import("../protectRoutes/UserLogin"))
+const ProfilePage =  lazy(()=> import("../pages/Profile"))
 
 const userRoutes = () => {
   return (
@@ -23,6 +24,8 @@ const userRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/dishes/:category" element={<CategoryDishes />} />
         <Route path="/review" element={<Review />} />
+        <Route path="/profile" element={<ProfilePage />} />
+
       </Route>
       </Routes>
     </Suspense>

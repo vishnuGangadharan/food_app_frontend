@@ -1,11 +1,11 @@
 import axios from "axios";
 import errorHandler from "../api/error";
 
-console.log('vvvsssds',import.meta.env.VITE_API_URL);
+
 
 
 const Api = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
 })
 

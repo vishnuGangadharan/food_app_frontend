@@ -29,6 +29,8 @@ const ReviewCarousel = () => {
   const getData =async ()=>{
     try {
       const response = await getReview()
+      console.log(response.data.review);
+      
       setFetchReview(response.data.review)
     } catch (error) {
       console.log(error);
