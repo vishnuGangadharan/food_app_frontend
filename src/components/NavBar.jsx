@@ -23,11 +23,11 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="shadow-lg z-50 py-7 relative " style={{ background: "#E74C3C" }}>
+    <nav className="shadow-lg z-50 py-7 relative " style={{ background: "#FFB84D" }}>
       <div className="container mx-auto px-6 flex justify-around items-center">
 
         <div className="flex items-center">
-          <h2 className="text-4xl font-semibold ml-10 text-yellow-500">FoodHub</h2>
+          <h2 className="text-4xl font-semibold ml-10 text-yellow-700">FoodHub</h2>
         </div>
 
         <div className="md:hidden flex items-center">
