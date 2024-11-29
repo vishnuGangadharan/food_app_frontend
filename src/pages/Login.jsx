@@ -1,3 +1,6 @@
+
+
+
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -28,11 +31,10 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         try {
-            console.log('ffff', data);
 
             const response = await login(data)
-            console.log('....', response);
             if (response?.status == 200) {
+                localStorage.setItem('token',response.data.token)
                 dispatch(setUserInfo(response.data.data))
                 toast.success(response.data.message)
                 navigate('/')
@@ -46,46 +48,68 @@ const Login = () => {
     };
 
 
+  return (
+    <div
+            className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://img.freepik.com/free-photo/top-view-table-full-food_23-2149209253.jpg?ga=GA1.1.985132408.1720016698&semt=ais_hybrid')",
+      }}
+    >
+      <div className="rounded-2xl shadow-xl p-8 w-full max-w-md bg-white/30 backdrop-blur-md">
+        <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
+          Welcome Back!
+        </h2>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              {...register("email")}
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+            />
+          </div>
+          {errors.email && <p className='text-red-600'>{errors.email.message}</p>}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+                type="password"
+               {...register("password")}
+              placeholder="Enter your password"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+            />
+          </div>
+          {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
 
-    return (
-        <div className="flex justify-center  absolute inset-0 -z-10 h-full w-full items-center  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
-
-            <div className="bg-blue-600 sm:w-[30%] p-8 sm:p-12 rounded-3xl shadow-2xl text-center backdrop-filter backdrop-blur-sm bg-opacity-5 border border-blue-500">
-                <h2 className='text-white mb-5 font-semibold text-3xl'>Login</h2>
-                <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="email"
-                        {...register("email")}
-                        className='mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline  backdrop-blur-sm bg-white/20 placeholder-white 
-              hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md'
-                        placeholder='Email'
-
-                    />
-                    {errors.email && <p className='text-red-600'>{errors.email.message}</p>}
-                    <input
-                        type="password"
-                        {...register("password")}
-                        className='mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline  backdrop-blur-sm bg-white/20 placeholder-white 
-              hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md'
-                        placeholder='Password'
-                        autoComplete="off"
-                    />
-                    {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
-
-                    <div className="mt-5 self-center w-[50%]">
-                        <button
-                            type="submit"
-                            className="bg-gradient-to-tr mt-2 mb-3 font-semibold from-pink-500 to-yellow-500 text-white shadow-lg w-full py-3 rounded-full"
-                        >
-                            Login
-                        </button>
-                    </div>
-                </form>
-                <span className='text-white mt-3 '>don't have a account ?
-                    <Link to='/signup' className='text-blue hover:font-semibold hover:text-green-700 m-5 cursor-pointer' >SignUp</Link> </span>
-            </div>
-        </div>
-    )
+          <button
+            type="submit"
+            className="w-full py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            Login
+          </button>
+        </form>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Don’t have an account?{" "}
+          <Link to='/signup' 
+            className="text-green-600 font-medium hover:underline"
+          >
+            Sign Up
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
 }
 
 export default Login

@@ -1,10 +1,12 @@
+
+
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from 'react-toastify'
 import { signUpSchema } from '../utils/validatios/Signup'
 import { signUp } from '../api/user'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 const Signup = () => {
 
     const {
@@ -21,26 +23,15 @@ const Signup = () => {
         },
         mode: "onTouched"
     });
-
+    const navigate = useNavigate()
 
     const onSubmit = async (data) => {
-        console.log(data);
         try {
-            console.log(data);
             const response = await signUp(data)
-            console.log('resd', response);
 
-            console.log('....', response?.data.message);
             if (response?.status == 200) {
                 toast.success(response.data.message)
-                navigate('/otp', {
-                    state: {
-                        email: data.email,
-                        name: data.name,
-                        phone: data.phone,
-                        password: data.password
-                    }
-                })
+                navigate('/login')
             }
 
         } catch (error) {
@@ -49,64 +40,105 @@ const Signup = () => {
         }
     }
 
-    return (
-        <div className="flex justify-center absolute inset-0 -z-10 h-full w-full items-center [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
-            <div className="bg-blue-600 sm:w-[30%] p-8 sm:p-12 rounded-3xl shadow-2xl text-center backdrop-filter backdrop-blur-sm bg-opacity-5 border border-blue-500">
-                <h2 className="text-white mb-5 font-semibold text-3xl">Sign Up</h2>
-                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        name="name"
-                        {...register('name')}
-                        className="mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline backdrop-blur-sm bg-white/20 placeholder-white hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md"
-                        placeholder="Name"
-                        type="text"
-                    />
-                    {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
+  return (
+    <div
+    className="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style={{
+      backgroundImage:
+        "url('https://img.freepik.com/free-photo/top-view-table-full-food_23-2149209253.jpg?ga=GA1.1.985132408.1720016698&semt=ais_hybrid')",
+    }}
+  >
+    <div className="rounded-lg shadow-xl p-8 w-full max-w-md bg-white/30 backdrop-blur-md">
+      <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
+        Create an Account
+      </h2>
+      <form className="space-y-4 " onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Name
+          </label>
+          <input
+            name="name"
+           {...register('name')}
+            placeholder="Enter your name"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
+        {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
 
-                    <input
-                        name="email"
-                        type="email"
-                        {...register('email')}
-                        className="mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline backdrop-blur-sm bg-white/20 placeholder-white hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md"
-                        placeholder="Email"
-                    />
-                    {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
-
-                    <input
-                        name="phone"
-                        type="tel"
-                        {...register('phone')}
-                        className="mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline backdrop-blur-sm bg-white/20 placeholder-white hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md"
-                        placeholder="Phone"
-                    />
-                    {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
-
-                    <input
-                        name="password"
-                        type="password"
-                        {...register('password')}
-                        className="mt-3 border-blue-700 text-white shadow appearance-none border rounded-xl w-full py-3 px-6 leading-tight focus:outline-none focus:shadow-outline backdrop-blur-sm bg-white/20 placeholder-white hover:bg-white/40 hover:border-blue-500 transition duration-200 ease-in-out text-md"
-                        placeholder="Password"
-                    />
-                    {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
-
-                    <div className="mt-5 self-center w-[50%]">
-                        <button
-                            type="submit"
-                            className="bg-gradient-to-tr mt-2 mb-3 font-semibold from-pink-500 to-yellow-500 text-white shadow-lg w-full py-3 rounded-full"
-                        >
-                            Sign Up
-                        </button>
-                    </div>
-                </form>
-                <span className="text-white mt-3">
-                    Already have an account?
-                    <Link to="/login" className="text-blue hover:font-semibold hover:text-green-700 m-5">Login</Link>
-                </span>
-            </div>
         </div>
+        <div>
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Phone
+          </label>
+          <input
+            name="phone"
+             type="tel"
+             {...register('phone')}
+            placeholder="Enter your phone number"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
+          {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
+        </div>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
+          <input
+            name="email"
+             type="email"
+           {...register('email')}
+            placeholder="Enter your email"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
+          {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            name="password"
+            type="password"
+           {...register('password')}
+            placeholder="Enter your password"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
+        </div>
+        {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+        <button
+          type="submit"
+          className="w-full py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          Sign Up
+        </button>
+      </form>
+      <p className="mt-4 text-sm text-center text-gray-600">
+        Already have an account?{" "}
+         <Link to="/login"
+          className="text-green-600 font-medium hover:underline"
+        >
+          Login
+        </Link>
+      </p>
+    </div>
+  </div>
 
-    )
+  )
 }
 
 export default Signup
+
+
+

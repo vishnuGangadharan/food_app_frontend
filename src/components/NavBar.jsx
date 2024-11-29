@@ -8,14 +8,14 @@ import { useNavigate, Link } from "react-router-dom";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.authUser.userInfo)
-  console.log('sssssssss', userInfo);
 
 
   const handleLogout = () => {
     dispatch(logoutUser());
     localStorage.removeItem("token");
+    navigate('/login')
   };
 
   const handleProfile = () => {
@@ -41,10 +41,10 @@ const NavBar = () => {
             Home
           </Link>
          
-          <a href="#about" className="text-white hover:text-black text-xl">
-            About Us
-          </a>
-          <a href="#contact" className="text-white hover:text-black text-xl">
+          <Link to="/review" className="text-white hover:text-black text-xl">
+             Add a Review
+            </Link>
+            <a href="#contact" className="text-white hover:text-black text-xl">
             Contact Us
           </a>
         </div>
@@ -88,13 +88,11 @@ const NavBar = () => {
             </Link>
            
           </div>
-          <a
-            href="#about"
-            className="block text-lg hover:text-blue-300"
-            onClick={() => setMenuOpen(false)}
+          <Link to="/review" className="text-white hover:text-black text-xl"
+           onClick={() => setMenuOpen(false)}
           >
-            About Us
-          </a>
+             Add a Review
+            </Link>
           <a
             href="#contact"
             className="block text-lg hover:text-blue-300"

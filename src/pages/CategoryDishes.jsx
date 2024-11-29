@@ -8,9 +8,9 @@ const CategoryDishes = () => {
     const { category } = useParams();
     const [dishes, setDishes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalDishes, setTotalDishes] = useState(0); // Track the total number of dishes
     const itemsPerPage = 12; // Fetch 12 items per page
 
-    console.log('Current Category:', category);
 
     const getDishesByCategory = async (page = 1) => {
         try {
@@ -19,8 +19,13 @@ const CategoryDishes = () => {
                 `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
             );
 
-            // Paginate results manually
+            // Get all the dishes
             const allDishes = response.data.meals || [];
+
+            // Update the total number of dishes
+            setTotalDishes(allDishes.length);
+
+            // Paginate results manually
             const startIndex = (page - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
             const paginatedDishes = allDishes.slice(startIndex, endIndex);
@@ -38,7 +43,7 @@ const CategoryDishes = () => {
     }, [currentPage, category]);
 
     // Calculate the total number of pages
-    const totalPages = Math.ceil(50 / itemsPerPage); // Assuming a maximum of 50 items for now
+    const totalPages = Math.ceil(totalDishes / itemsPerPage); // Dynamically calculate total pages based on the number of dishes
 
     return (
         <div>
@@ -77,7 +82,7 @@ const CategoryDishes = () => {
                     <span className="px-4 py-2 text-lg">{`Page ${currentPage} of ${totalPages}`}</span>
 
                     <button
-                        disabled={currentPage === totalPages}
+                        disabled={currentPage === totalPages || totalDishes <= currentPage * itemsPerPage}
                         onClick={() => setCurrentPage((prev) => prev + 1)}
                         className="px-4 py-2 mx-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50"
                     >
@@ -86,20 +91,18 @@ const CategoryDishes = () => {
                 </div>
             </div>
 
-            <div className='mt-10 flex justify-center '>
-                <div>
-                <img src="/images/noodiles.avif" className='w-[400px] ' alt="" />
-
+            <div className="mt-10 flex justify-center items-center">
+                <div className="mr-10">
+                    <img src="/images/noodiles.avif" className="w-[400px] rounded-2xl" alt="Noodles" />
                 </div>
-                <div>
-                    <h1>Order your Food Now</h1>
+                <div className="flex flex-col justify-center items-center text-center">
+                    <h1 className="text-2xl font-semibold">Order your Food Now</h1>
+                    <p>Are you hungry? Time for some food!</p>
                 </div>
             </div>
 
-            <Footer/>
+            <Footer />
         </div>
-
-
     );
 };
 
