@@ -1,7 +1,7 @@
 import React from 'react'
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from "react-router-dom";
-
+import Spinner from '../components/Spinner';
 
 const SignUp = lazy(()=> import("../pages/Signup"))
 const Login = lazy(()=> import("../pages/Login"))
@@ -12,9 +12,10 @@ const UserLogout = lazy(()=> import("../protectRoutes/UserLogout"))
 const UserLogin = lazy(()=> import("../protectRoutes/UserLogin"))
 const ProfilePage =  lazy(()=> import("../pages/Profile"))
 
+
 const userRoutes = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={ <Spinner/>}>
       <Routes>
       <Route element={<UserLogout/>}>
         <Route path="/signup" element={<SignUp />} />

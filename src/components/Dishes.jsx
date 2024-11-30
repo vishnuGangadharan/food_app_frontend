@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Box, Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
 const Dishes = () => {
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +37,9 @@ const Dishes = () => {
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5 mx-20 cursor-pointer">
                 {currentCategories && currentCategories.length > 0 ? (
                     currentCategories.map((item, index) => (
-                        <Box
+                        <motion.Box
+                        whileHover={{ scale: 1.02, transformOrigin: "center" }} 
+                       
                             key={index}
                             maxW="sm"
                             borderWidth="1px"
@@ -53,7 +56,7 @@ const Dishes = () => {
                             <p className="mt-2 text-lg text-center font-semibold">
                                 {item.strCategory}
                             </p>
-                        </Box>
+                        </motion.Box>
                     ))
                 ) : (
                     <p>No posts found</p>
